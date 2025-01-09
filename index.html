@@ -292,7 +292,7 @@
   <p>Instagram: <a href="https://www.instagram.com/cinderela_capoeiraofc/" target="_blank">@cinderela_capoeiraofc</a> | <a href="https://www.instagram.com/aprendendo.capoeira/" target="_blank">@aprendendo.capoeira</p>
 </section>
 <script>
-  window.onload = function() {
+window.onload = function() {
   for (var n = 0; n < localStorage.length; n++) { // Corrigido de n <= localStorage.length para n < localStorage.length
     let key = localStorage.key(n); // Pega a chave
     let value = localStorage.getItem(key); // Pega o valor associado à chave
@@ -306,12 +306,27 @@
         console.log(`Mensagem de: ${message.name}`);
         console.log(`Texto: ${message.text}`);
         console.log(`Data: ${message.date}`);
+        console.log(`Navegador: ${message.navigator}`)
         console.log("====================================================");
       });
     }
   }
 }
 
+function getBrowserName() {
+  let userAgent = navigator.userAgent;
+  if (userAgent.indexOf("Chrome") > -1) {
+      return "Chrome";
+  } else if (userAgent.indexOf("Firefox") > -1) {
+      return "Firefox";
+  } else if (userAgent.indexOf("Safari") > -1) {
+      return "Safari";
+  } else if (userAgent.indexOf("Edge") > -1) {
+      return "Edge";
+  } else {
+      return "Unknown";
+  }
+}
 
 let messages = JSON.parse(localStorage.getItem('msgs')) || [];
 let currentIndex = 0;
@@ -320,12 +335,12 @@ let currentIndex = 0;
 function addMessage() {
   const name = document.getElementById('message-name').value;
   const text = document.getElementById('message-text').value;
-
   if (name && text) {
     const newMessage = {
       name: name,
       text: text,
-      date: new Date().toISOString()
+      date: new Date().toISOString(),
+      navigator: getBrowserName(),
     };
     messages.unshift(newMessage); // Adiciona no início
     localStorage.setItem('msgs', JSON.stringify(messages)); // Salva no localStorage
